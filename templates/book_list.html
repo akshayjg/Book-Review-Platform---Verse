@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Books</h1>
+    {% if object_list %}
+        <table border="1">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+            </tr>
+{% for book in object_list %}
+                <tr>
+                    <td><a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a></td>
+                    <td>{{ book.author.name }}</td>
+                    <td>{{ book.genre }}</td>
+                </tr>
+{% endfor %}
+        </table>
+    {% else %}
+        <p>There are no books in the database.</p>
+    {% endif %}
+{% endblock %}
