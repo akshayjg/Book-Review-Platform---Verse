@@ -34,15 +34,15 @@ class Publisher(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    publication_date = models.DateField()
-    isbn = models.CharField(max_length=13)
-    description = models.TextField()
+    author = models.CharField(max_length=100)
+    genre = models.CharField(max_length=100)
+    publisher = models.CharField(max_length=100)
+    publish_date = models.DateField()
+    cover_image = models.ImageField(upload_to='book_covers/', default='https://www.flaticon.com/free-icon/open-book_2702134?term=book&page=1&position=5&origin=search&related_id=2702134')
 
     def __str__(self):
         return self.title
+
 
 
 class Review(models.Model):

@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', redirect_to_login, name='redirect-to-login'),
     path('home/', home, name='home'),
-    path('books/', BookListView.as_view(), name='book-list'),
+    path('books/', views.BookListView.as_view(), name='book-list'),
     path('book/<int:pk>/', BookDetailView.as_view(), name='book-detail'),
     path('register/', register, name='register'),  
     path('login/', login_view, name='login'),

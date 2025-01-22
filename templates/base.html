@@ -4,11 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>VERSE</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    <header>
+        <div class="logo">
+            <h1>VERSE</h1>
+        </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'book-list' %}">My Books</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">More</a>
+                        <ul class="dropdown-content">
+                            <li><a href="{% url 'recommendations' %}">Recommendations</a></li>
+                            <li><a href="{% url 'new-releases' %}">New Releases</a></li>
+                            <li><a href="{% url 'explore' %}">Explore</a></li>
+                            <li><a href="{% url 'awards' %}">Awards</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+           
+        <div class="search-bar">
+            <input type="text" placeholder="Search books, authors, etc." aria-label="Search">
+            <button type="submit">Search</button>
+        </div>
+        <div class="header-buttons">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'notifications' %}">Notifications</a>
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-item nav-link">
+                Log out <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
+    {% else %}
+        <a class="nav-item nav-link" href="{% url 'login' %}">
+            Log in <i class="fas fa-sign-in-alt"></i>
+        </a>
+        <a class="nav-item nav-link" href="{% url 'register' %}">
+            Sign up <i class="fas fa-user-plus"></i>
+        </a>
+    {% endif %}
+        </div>
+    </header>
+
     {% block content %}
     {% endblock %}
+
+    <footer>
+        <div class="footer-container">
+            <!-- COMPANY Section -->
+            <div class="footer-section">
+                <h4>COMPANY</h4>
+                <ul>
+                    <li><a href="#about-us">About us</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#terms">Terms</a></li>
+                    <li><a href="#privacy">Privacy</a></li>
+                    <li><a href="#interest-based-ads">Interest Based Ads</a></li>
+                    <li><a href="#ad-preferences">Ad Preferences</a></li>
+                    <li><a href="#help">Help</a></li>
+                </ul>
+            </div>
+
+            <!-- WORK WITH US Section -->
+            <div class="footer-section">
+                <h4>WORK WITH US</h4>
+                <ul>
+                    <li><a href="#authors">Authors</a></li>
+                    <li><a href="#advertise">Advertise</a></li>
+                    <li><a href="#authors-ads-blog">Authors & Ads Blog</a></li>
+                    <li><a href="#api">API</a></li>
+                </ul>
+            </div>
+
+            <!-- CONNECT Section -->
+            <div class="footer-section">
+                <h4>CONNECT</h4>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com"><img src="https://freepnglogo.com/images/all_img/facebook-circle-logo-png.png" alt="Facebook"></a> 
+                    <a href="https://twitter.com"><img src="https://freepnglogo.com/images/all_img/1691832581twitter-x-icon-png.png" alt="Twitter"></a> 
+                    <a href="https://www.instagram.com"><img src="https://freepnglogo.com/images/all_img/1725819461instagram-logo.png" alt="Instagram"></a>
+                    <a href="https://www.apple.com/app-store/"><img src="https://freepnglogo.com/images/all_img/1718130679apple-logo-png-transparent-image.png" alt="Download on the App Store"></a>
+                    <a href="https://play.google.com/store/apps?hl=en_US"><img src="https://freepnglogo.com/images/all_img/google-play-2022-icon-282d.png" alt="Get it on Google Play"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Goodreads, Inc. | <a href="#mobile-version">Mobile version</a></p>
+        </div>
+    </footer>
 </body>
 </html>

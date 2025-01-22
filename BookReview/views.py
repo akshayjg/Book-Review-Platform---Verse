@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 
+
 def register(request):
     if request.method == 'POST':
         # Get form data from POST request
@@ -52,14 +53,6 @@ def notifications(request):
 def notify_user(request, message, level=messages.INFO):
     messages.add_message(request, level, message)
 
-@login_required
-def home(request):
-    currently_reading = ...  
-    recommended_books = ... 
-    return render(request, 'home.html', {
-        'currently_reading': currently_reading,
-        'recommended_books': recommended_books,
-    })
 
 def redirect_to_login(request):
     return redirect('login')
@@ -70,6 +63,7 @@ def profile(request):
 class BookListView(ListView):
     model = Book
     template_name = 'book_list.html'
+    context_object_name = 'books'
     
 class AuthorListView(ListView):
     model = Author
@@ -87,8 +81,8 @@ def home(request):
     books = Book.objects.all()[:10]  #first 10 books 
     genres = Genre.objects.all()
     context = {
-        'books': books,
-        'genres': genres,
+        'books': books if books else [],
+        'genres': genres if genres else [],
     }
     return render(request, 'home.html', context)
 
@@ -119,7 +113,7 @@ def add_book(request):
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('book_list')  
+            return redirect('book-list')
     else:
         form = BookForm()
     return render(request, 'add_book.html', {'form': form})

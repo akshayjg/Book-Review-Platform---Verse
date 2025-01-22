@@ -1,172 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 
-{% if user.is_authenticated %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset
-="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Book Review</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <h1>VERSE</h1>
-            </div>
-            <nav>
-                <nav>
-                    <ul>
-                        <li><a href="{% url 'book-list' %}">My Books</a></li>
-                        <li><a href="{% url 'about' %}">About Us</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropbtn">More</a>
-                            <ul class="dropdown-content">
-                                <li><a href="{% url 'recommendations' %}">Recommendations</a></li>
-                                <li><a href="{% url 'new-releases' %}">New Releases</a></li>
-                                <li><a href="{% url 'explore' %}">Explore</a></li>
-                                <li><a href="{% url 'awards' %}">Awards</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>                
-            </nav>
-        </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Search books, authors, etc." aria-label="Search">
-            <button type="submit">Search</button>
+<main>
+  <div class="layout">
+    <div class="currently-reading">
+      <h2>Currently Reading</h2>
+      <div class="book-list">
+        {% for book in currently_reading %}
+        <div class="book-item">
+          <h3>{{ book.title }}</h3>
+          <p>by {{ book.author.name }}</p>
+          <p>{{ book.description|truncatewords:20 }}</p>
+          <a href="{% url 'book-detail' book.pk %}">View Details</a>
         </div>
-        <div class="header-buttons">
-            <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'notifications' %}">Notifications</a>
-    {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="nav-item nav-link">
-                Log out <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </form>
-    {% else %}
-        <a class="nav-item nav-link" href="{% url 'login' %}">
-            Log in <i class="fas fa-sign-in-alt"></i>
-        </a>
-        <a class="nav-item nav-link" href="{% url 'register' %}">
-            Sign up <i class="fas fa-user-plus"></i>
-        </a>
-    {% endif %}
-    </header>
-
-    <main>
-        <div class="layout">
-            <div class="currently-reading">
-                <h2>Currently Reading</h2>
-                <div class="book-list">
-                    {% for book in currently_reading %}
-                    <div class="book-item">
-                        <h3>{{ book.title }}</h3>
-                        <p>by {{ book.author.name }}</p>
-                        <p>{{ book.description|truncatewords:20 }}</p>
-                        <a href="{% url 'book-detail' book.pk %}">View Details</a>
-                    </div>
-                    {% empty %}
-                    <p>No currently reading books.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="news-section">
-                <h2>News & Updates</h2>
-                <div class="news-list">
-                    <div class="news-item"></div>
-                        <h4>Crush Your 2025 Reading Challenge Goals with These Tips</h4>
-                        <p>Congrats on taking the first (and arguably most important) step of the 2025 Goodreads Reading Challenge: signing up! By joining, you’ve committed to reading this year. That’s the kind of New Year’s resolution we can get behind! We’d also like to give you a head start by sharing these tried-and-tested tips for staying motivated throughout the year.</p>
-
-                    <div class="news-item"></div>
-                        <h4>New book releases coming this fall!</h4>
-                        <p>Stay tuned for the exciting lineup of upcoming releases. This fall, we have an array of new books from various genres that will captivate your imagination and keep you hooked. From thrilling mysteries to heartwarming romances, there's something for everyone. Mark your calendars and get ready to add these new titles to your reading list.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4>Author interviews: Insights from the best in the business.</h4>
-                        <p>Get an inside look at your favorite authors' lives and works. Our exclusive interviews delve deep into their creative processes, inspirations, and the stories behind their most popular books. Discover what motivates them, their writing routines, and their advice for aspiring writers. These interviews are a must-read for any book lover.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4>Join our book club for exclusive discussions.</h4>
-                        <p>Dive deep into your favorite books and share your thoughts with fellow readers. Our book club offers a unique opportunity to engage in meaningful discussions, explore different perspectives, and connect with other book enthusiasts. Each month, we select a new book to read and discuss, providing a rich and interactive reading experience.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4>Check out our latest blog posts on reading trends.</h4>
-                        <p>Explore the latest trends and get tips on improving your reading experience. Our blog covers a wide range of topics, from the best new releases and genre trends to reading challenges and book recommendations. Stay informed and enhance your reading journey with our expert insights and advice.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4>Upcoming events: Meet your favorite authors!</h4>
-                        <p>Don't miss the chance to meet and greet with authors, and get your books signed. Our upcoming events feature book signings, author talks, and interactive Q&A sessions. These events provide a unique opportunity to connect with the authors behind your favorite books, ask questions, and gain a deeper understanding of their work. Keep an eye on our event calendar for dates and details.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="recommended-books">
-                <h2>Recommended Books</h2>
-                <div class="book-list">
-                    {% for book in recommended_books %}
-                    <div class="book-item">
-                        <h3>{{ book.title }}</h3>
-                        <p>by {{ book.author.name }}</p>
-                        <p>{{ book.description|truncatewords:20 }}</p>
-                        <a href="{% url 'book-detail' book.pk %}">View Details</a>
-                    </div>
-                    {% empty %}
-                    <p>No recommendations available.</p>
-                    {% endfor %}
-                </div>
-            </div>
+        {% empty %}
+        <p>No currently reading books.</p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="news-section">
+      <h2>News & Updates</h2>
+      <div class="news-list">
+        <div class="news-item">
+          <h4>Crush Your 2025 Reading Challenge Goals with These Tips</h4>
+          <p>
+            Congrats on taking the first (and arguably most important) step of
+            the 2025 Goodreads Reading Challenge: signing up! By joining, you’ve
+            committed to reading this year. That’s the kind of New Year’s
+            resolution we can get behind! We’d also like to give you a head
+            start by sharing these tried-and-tested tips for staying motivated
+            throughout the year.
+          </p>
         </div>
-    </main>
-
-    <footer>
-        <div class="footer-container">
-            <!-- COMPANY Section -->
-            <div class="footer-section">
-                <h4><h4>COMPANY</h4>
-                <ul>
-                    <li><a href="#about-us">About us</a></li>
-                    <li><a href="#careers">Careers</a></li>
-                    <li><a href="#terms">Terms</a></li>
-                    <li><a href="#privacy">Privacy</a></li>
-                    <li><a href="#interest-based-ads">Interest Based Ads</a></li>
-                    <li><a href="#ad-preferences">Ad Preferences</a></li>
-                    <li><a href="#help">Help</a></li>
-                </ul>
-            </div>
-
-            <!-- WORK WITH US Section -->
-            <div class="footer-section">
-                <h4>WORK WITH US</h4>
-                <ul>
-                    <li><a href="#authors">Authors</a></li>
-                    <li><a href="#advertise">Advertise</a></li>
-                    <li><a href="#authors-ads-blog">Authors & Ads Blog</a></li>
-                    <li><a href="#api">API</a></li>
-                </ul>
-            </div>
-
-            <!-- CONNECT Section -->
-            <div class="footer-section">
-                <h4>CONNECT</h4>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com"><img src="https://freepnglogo.com/images/all_img/facebook-circle-logo-png.png" alt="Facebook"></a> 
-                    <a href="https://twitter.com"><img src="https://freepnglogo.com/images/all_img/1691832581twitter-x-icon-png.png" alt="Twitter"></a> 
-                    <a href="https://www.instagram.com"><img src="https://freepnglogo.com/images/all_img/1725819461instagram-logo.png" alt="Instagram"></a>
-                    <a href="https://www.apple.com/app-store/"><img src="https://freepnglogo.com/images/all_img/1718130679apple-logo-png-transparent-image.png" alt="Download on the App Store"></a>
-                    <a href="https://play.google.com/store/apps?hl=en_US"><img src="https://freepnglogo.com/images/all_img/google-play-2022-icon-282d.png" alt="Get it on Google Play"></a>
-                </div>
-            </div>
+        <div class="news-item">
+          <h4>New book releases coming this fall!</h4>
+          <p>
+            Stay tuned for the exciting lineup of upcoming releases. This fall,
+            we have an array of new books from various genres that will
+            captivate your imagination and keep you hooked. From thrilling
+            mysteries to heartwarming romances, there's something for everyone.
+            Mark your calendars and get ready to add these new titles to your
+            reading list.
+          </p>
         </div>
-
-        <div class="footer-bottom">
-            <p>© 2025 Goodreads, Inc. | <a href="#mobile-version">Mobile version</a></p>
+        <div class="news-item">
+          <h4>Author interviews: Insights from the best in the business.</h4>
+          <p>
+            Get an inside look at your favorite authors' lives and works. Our
+            exclusive interviews delve deep into their creative processes,
+            inspirations, and the stories behind their most popular books.
+            Discover what motivates them, their writing routines, and their
+            advice for aspiring writers. These interviews are a must-read for
+            any book lover.
+          </p>
         </div>
-    </footer>
-    {% else %}
-        <p>Please login to continue</p>
-    {% endif %}
-</body>
-</html>
+        <div class="news-item">
+          <h4>Join our book club for exclusive discussions.</h4>
+          <p>
+            Dive deep into your favorite books and share your thoughts with
+            fellow readers. Our book club offers a unique opportunity to engage
+            in meaningful discussions, explore different perspectives, and
+            connect with other book enthusiasts. Each month, we select a new
+            book to read and discuss, providing a rich and interactive reading
+            experience.
+          </p>
+        </div>
+        <div class="news-item">
+          <h4>Check out our latest blog posts on reading trends.</h4>
+          <p>
+            Explore the latest trends and get tips on improving your reading
+            experience. Our blog covers a wide range of topics, from the best
+            new releases and genre trends to reading challenges and book
+            recommendations. Stay informed and enhance your reading journey with
+            our expert insights and advice.
+          </p>
+        </div>
+        <div class="news-item">
+          <h4>Upcoming events: Meet your favorite authors!</h4>
+          <p>
+            Don't miss the chance to meet and greet with authors, and get your
+            books signed. Our upcoming events feature book signings, author
+            talks, and interactive Q&A sessions. These events provide a unique
+            opportunity to connect with the authors behind your favorite books,
+            ask questions, and gain a deeper understanding of their work. Keep
+            an eye on our event calendar for dates and details.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="recommended-books">
+      <h2>Recommended Books</h2>
+      <div class="book-list">
+        {% for book in recommended_books %}
+        <div class="book-item">
+          <h3>{{ book.title }}</h3>
+          <p>by {{ book.author.name }}</p>
+          <p>{{ book.description|truncatewords:20 }}</p>
+          <a href="{% url 'book-detail' book.pk %}">View Details</a>
+        </div>
+        {% empty %}
+        <p>No recommendations available.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

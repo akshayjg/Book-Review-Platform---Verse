@@ -1,19 +1,29 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <h1 class="text-center mb-4">About VERSE</h1>
-            <p>Welcome to the VERSE - A Book Review Platform, your one-stop destination for discovering, discussing, and delving deep into the world of literature. We are a community of book lovers, dedicated to providing insightful reviews, engaging discussions, and a space to connect with fellow readers.</p>
-            <p>Our mission is simple: to bring the joy of reading to your fingertips. Whether you're a seasoned bibliophile or a newcomer to the literary world, BRP offers a welcoming environment to explore new books, revisit old favorites, and share your thoughts with a community that understands your passion.</p>
-            <p>What sets us apart?</p>
-            <ul>
-                <li><strong>Comprehensive Reviews:</strong> Our team of dedicated reviewers reads and analyzes a wide array of books, from contemporary fiction to classic literature, providing you with detailed insights into each work.</li>
-                <li><strong>Community-Driven Discussions:</strong> We believe in the power of shared experiences. Join our forums to discuss plot twists, character developments, and your favorite quotes.</li>
-                <li><strong>Personalized Recommendations:</strong> Based on your reading history and preferences, we offer tailored suggestions to help you find your next literary adventure.</li>
-                <li><strong>Author Spotlights:</strong> Get to know the minds behind the books. We feature interviews with authors, giving you a deeper understanding of their creative process.</li>
-            </ul>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">About VERSE</h1>
+                    <p>Welcome to the VERSE - A Book Review Platform, your one-stop destination for discovering, discussing, and delving deep into the world of literature. We are a community of book lovers, dedicated to providing insightful reviews, engaging discussions, and a space to connect with fellow readers.</p>
+                    <p>Our mission is simple: to bring the joy of reading to your fingertips. Whether you're a seasoned bibliophile or a newcomer to the literary world, BRP offers a welcoming environment to explore new books, revisit old favorites, and share your thoughts with a community that understands your passion.</p>
+                    <p>What sets us apart?</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Comprehensive Reviews:</strong> Our team of dedicated reviewers reads and analyzes a wide array of books, from contemporary fiction to classic literature, providing you with detailed insights into each work.</li>
+                                <li><strong>Community-Driven Discussions:</strong> We believe in the power of shared experiences. Join our forums to discuss plot twists, character developments, and your favorite quotes.</li>
+                                <li><strong>Personalized Recommendations:</strong> Based on your reading history and preferences, we offer tailored suggestions to help you find your next literary adventure.</li>
+                                <li><strong>Author Spotlights:</strong> Get to know the minds behind the books. We feature interviews with authors, giving you a deeper understanding of their creative process.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
