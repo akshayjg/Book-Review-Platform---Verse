@@ -7,18 +7,22 @@
     <h1>Notifications</h1>
 </header>
 <main>
-    <section id="notifications">
-        <article class="notification">
-            <h2>New Release: Browse</h2>
-            <p>Browse has just been released. Check it out now!</p>
-            <time datetime="2023-10-01">October 1, 2023</time>
-        </article>
-        <article class="notification">
-            <h2>Update: Book Review</h2>
-            <p>Book Review has received a new update. Learn more about the new features.</p>
-            <time datetime="2023-09-25">September 25, 2023</time>
-        </article>
-        <!-- Add more notifications as needed -->
+    <section id="notifications" aria-labelledby="notifications-heading">
+        <h2 id="notifications-heading" class="visually-hidden">Notifications List</h2>
+        <div class="notification-container">
+            <article class="notification">
+                <h3>New Release: Browse</h3>
+                <p>Browse has just been released. Check it out now!</p>
+                <time datetime="2023-10-01">October 1, 2023</time>
+            </article>
+        </div>
+        <div class="notification-container">
+            <article class="notification">
+                <h3>Update: Book Review</h3>
+                <p>Book Review has received a new update. Learn more about the new features.</p>
+                <time datetime="2023-09-25">September 25, 2023</time>
+            </article>
+        </div>
     </section>
 </main>
 {% endblock %}

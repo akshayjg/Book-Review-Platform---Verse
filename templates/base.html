@@ -4,54 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>VERSE</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
-        <div class="logo">
-            <h1>VERSE</h1>
-        </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'book-list' %}">My Books</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropbtn">More</a>
-                        <ul class="dropdown-content">
-                            <li><a href="{% url 'recommendations' %}">Recommendations</a></li>
-                            <li><a href="{% url 'new-releases' %}">New Releases</a></li>
-                            <li><a href="{% url 'explore' %}">Explore</a></li>
-                            <li><a href="{% url 'awards' %}">Awards</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-           
-        <div class="search-bar">
-            <input type="text" placeholder="Search books, authors, etc." aria-label="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="header-buttons">
-            <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'notifications' %}">Notifications</a>
-    {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="nav-item nav-link">
-                Log out <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </form>
-    {% else %}
-        <a class="nav-item nav-link" href="{% url 'login' %}">
-            Log in <i class="fas fa-sign-in-alt"></i>
-        </a>
-        <a class="nav-item nav-link" href="{% url 'register' %}">
-            Sign up <i class="fas fa-user-plus"></i>
-        </a>
-    {% endif %}
-        </div>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>VERSE</h1>
+            </div>
+            <ul class="header-buttons">
+                <a href="{% url 'book-list' %}" class="nav-link">Books</a>
+                <a href="{% url 'about' %}" class="nav-link">About Us</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn nav-link">More</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'recommendations' %}" class="nav-link">Recommendations</a>
+                        <a href="{% url 'new-releases' %}" class="nav-link">New Releases</a>
+                        <a href="{% url 'explore' %}" class="nav-link">Explore</a>
+                        <a href="{% url 'awards' %}" class="nav-link">Awards</a>
+                    </div>
+                </div>
+            </ul>
+            <div class="search-bar">
+                <input type="text" placeholder="Search books, authors, etc." aria-label="Search">
+                <button type="submit" class="nav-link">Search</button>
+            </div>
+            <div class="header-buttons">
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                <a href="{% url 'notifications' %}" class="nav-link">Notifications</a>
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link">Log out <i class="fas fa-sign-out-alt"></i></button>
+                </form>
+                {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Log in <i class="fas fa-sign-in-alt"></i></a>
+                <a class="nav-link" href="{% url 'register' %}">Sign up <i class="fas fa-user-plus"></i></a>
+                {% endif %}
+            </div>
+        </nav>
     </header>
 
     {% block content %}
@@ -98,7 +90,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© 2025 Goodreads, Inc. | <a href="#mobile-version">Mobile version</a></p>
+            <p>© 2025 VERSE, Inc. | <a href="#mobile-version">Mobile version</a></p>
         </div>
     </footer>
 </body>

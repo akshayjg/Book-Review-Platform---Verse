@@ -1,57 +1,172 @@
-{% extends 'base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'base.html' %}
+    {% load static %}
+    <style>
+        body {
+            margin: 0;
+            margin-left: 100px;
+            padding-left: 100px;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f7f7f7;
+        }
 
-{% block title %}
-    {{ object.title }}
-{% endblock %}
-{% block content %}
-<h1>{{ object.title }}</h1>
-<p>Author: {{ object.author.name }}</p>
-<p>Genre: {{ object.genre.name }}</p>
-<p>Publisher: {{ object.publisher.name }}</p>
-<p>Published on: {{ object.publication_date }}</p>
-<p>Description: {{ object.description }}</p>
+        .main-container {
+            text-align: center;
+            max-width: 700px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-<h2>Reviews</h2>
-<ul>
-{% for review in object.review_set.all %}
-    <li>{{ review.user.username }} - Rating: {{ review.rating }}<br>{{ review.comment }}</li>
-{% endfor %}
-</ul>
-<h2>Add Review</h2>
-{% if user.is_authenticated %}
-    <form method="post" action="">
-        {% csrf_token %}
-        <label for="rating">Rating:</label>
-        <select name="rating" id="rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select><br>
+        .main-container img {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px; /* Ensure the image doesn't dominate the page */
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-        <label for="comment">Comment:</label>
-        <textarea name="comment" id="comment"></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
-{% else %}
-    <p>You must be logged in to add a review.</p>
-{% endif %}
-{% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
-<script src="{% static 'js/main.js' %}"></script>
-{% endblock %}
+        .main-container h1 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
 
+        .main-container p {
+            font-size: 16px;
+            margin: 5px 0;
+            text-align: center;
+            line-height: 1.5;
+        }
 
+        .main-container p strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
 
+        .review-section h2 {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
 
+        .review-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
 
+        .review-list li {
+            text-align: left;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
 
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
 
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form textarea,
+        form select {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #161716;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <div class="main-container">
+        <!-- Book Cover Image -->
+        <img src="{% static 'path_to_book_image.jpg' %}" alt="Book Cover">
+
+        <!-- Book Details -->
+        <h1>{{ object.title }}</h1>
+        <div class="book-meta">
+            <div>
+                <strong>Author:</strong> {{ object.author }}
+            </div>
+            <div>
+                <strong>Genre:</strong> {{ object.genre }}
+            </div>
+            <div>
+                <strong>Publisher:</strong> {{ object.publisher }}
+            </div>
+            <div>
+                <strong>Published on:</strong> {{ object.publication_date }}
+            </div>
+        </div>
+        <p><strong>Description:</strong> {{ object.description }}</p>
+
+        <!-- Reviews Section -->
+        <div class="review-section">
+            <h2>Reviews</h2>
+            <ul class="review-list">
+                {% for review in object.review_set.all %}
+                <li>
+                    <strong>{{ review.user.username }}</strong> - Rating: {{ review.rating }}<br>
+                    {{ review.comment }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Add Review Section -->
+        <div class="add-review-section">
+            <h2>Add Review</h2>
+            {% if user.is_authenticated %}
+            <form method="post" action="">
+                {% csrf_token %}
+                <label for="rating">Rating:</label>
+                <select name="rating" id="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <label for="comment">Comment:</label>
+                <textarea name="comment" id="comment" rows="4"></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+            {% else %}
+            <p>You must be logged in to add a review.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+</body>
 </html>

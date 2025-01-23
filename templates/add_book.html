@@ -6,28 +6,28 @@
     <h2>Add a New Book</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div>
+        <div class="form-group">
             <label for="title">Book Title:</label>
             <input type="text" id="title" name="title" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="author">Author:</label>
             <input type="text" id="author" name="author" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="genre">Genre:</label>
             <input type="text" id="genre" name="genre" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="publisher">Publisher:</label>
             <input type="text" id="publisher" name="publisher" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="publish_date">Publish Date:</label>
             <input type="date" id="publish_date" name="publish_date" required>
         </div>
-        <div>
-            <label for="cover_image">Cover Image:</label> <!-- Added image upload field -->
+        <div class="form-group">
+            <label for="cover_image">Cover Image:</label>
             <input type="file" id="cover_image" name="cover_image" accept="image/*">
         </div>
         <button type="submit">Add Book</button>

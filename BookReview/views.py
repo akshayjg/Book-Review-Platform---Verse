@@ -1,74 +1,85 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
-from .models import Book, Author, Genre
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from .models import Book, Genre
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from .forms import BookForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 
-
+@csrf_protect
 def register(request):
     if request.method == 'POST':
         # Get form data from POST request
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        gender = request.POST.get('gender')
-        username = request.POST.get('username')
         email = request.POST.get('email')
+        username = request.POST.get('username')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-
+    
         # Validate the data
         if password1 != password2:
             messages.error(request, "Passwords do not match!")
             return redirect('register')
-
+    
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists!")
             return redirect('register')
-
+    
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already exists!")
             return redirect('register')
-
+    
         # Create the user
         user = User.objects.create_user(username=username, email=email, password=password1)
         
         # Optionally save additional information like name and phone in a profile model
-
+    
         user.save()
-
+    
         # Log the user in and redirect to home page
         login(request, user)
         messages.success(request, f'Account created successfully for {username}!')
         return redirect('home')
-
     return render(request, 'register.html')
 
 def notifications(request):
     return render(request, 'notifications.html', {'messages': messages.get_messages(request)})
+
 def notify_user(request, message, level=messages.INFO):
     messages.add_message(request, level, message)
-
 
 def redirect_to_login(request):
     return redirect('login')
 
-@login_required
-def profile(request):
-    return render(request, 'profile.html', {'user': request.user})
+def update_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('book-detail', pk=book.pk)
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'book-update.html', {'form': form})
 class BookListView(ListView):
     model = Book
     template_name = 'book_list.html'
     context_object_name = 'books'
-    
-class AuthorListView(ListView):
-    model = Author
-    template_name = 'author_list.html'
-    
+
+class BookUpdateView(UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'book-update.html'
+    context_object_name = 'book'
+    success_url = reverse_lazy('book-list')
+
+class BookDeleteView(DeleteView):
+    template_name = 'delete-book.html'
+    success_url = reverse_lazy('book-list')
 class GenreListView(ListView):
     model = Genre
     template_name = 'genre_list.html'
@@ -144,4 +155,14 @@ def awards(request):
         'awards_list': ['Award 1', 'Award 2', 'Award 3']  # Example data
     }
     return render(request, 'awards.html', context)
+    
+@login_required
+def profile(request):
+    return render(request, 'profile.html', {'user': request.user})
 
+
+def book_detail(request, pk):
+
+    book = get_object_or_404(Book, pk=pk)
+
+    return render(request, 'book_detail.html', {'object': book})

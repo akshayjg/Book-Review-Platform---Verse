@@ -1,23 +1,95 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .book-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+        gap: 20px; /* Spacing between the grid items */
+        justify-items: center; /* Center-align items horizontally */
+        margin: 20px auto;
+        max-width: 1200px; /* Constrain the total width */
+    }
+    .book-box {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%; /* Make the box adapt to the column width */
+        max-width: 300px; /* Limit the size of each box */
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .book-box:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .book-box h2 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    .book-box img {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    h1 {
+        text-align: center;
+        font-size: 28px;
+        margin: 20px 0;
+    }
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    .delete-button, .update-button {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .delete-button:hover {
+        background-color: #ff1a1a;
+    }
+    .update-button {
+        background-color: #4CAF50;
+    }
+    .update-button:hover {
+        background-color: #45a049;
+    }
+</style>
+
 <h1>Books</h1>
-    {% if object_list %}
-        <table border="1">
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-            </tr>
-{% for book in object_list %}
-                <tr>
-                    <td><a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a></td>
-                    <td>{{ book.author.name }}</td>
-                    <td>{{ book.genre }}</td>
-                </tr>
-{% endfor %}
-        </table>
-    {% else %}
-        <p>There are no books in the database.</p>
-    {% endif %}
+{% if object_list %}
+<div class="book-container">
+    {% for book in object_list %}
+        <div class="book-box">
+            <h2><a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a></h2>
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover">
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Genre:</strong> {{ book.genre }}</p>
+            <p><strong>Rating:</strong> {{ book.rating }}</p>
+            <div class="button-container">
+                <form method="post" action="{% url 'book-delete' book.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+                <form method="get" action="{% url 'book-update' book.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="update-button">Update</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+<p style="text-align: center;">There are no books in the database.</p>
+{% endif %}
 {% endblock %}

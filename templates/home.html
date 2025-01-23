@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
 
-<main>
+<main role="main">
   <div class="layout">
-    <div class="currently-reading">
-      <h2>Currently Reading</h2>
+    <div class="currently-reading" role="region" aria-labelledby="currently-reading-title">
+      <h2 id="currently-reading-title">Currently Reading</h2>
       <div class="book-list">
         {% for book in currently_reading %}
         <div class="book-item">
@@ -19,8 +19,8 @@
         {% endfor %}
       </div>
     </div>
-    <div class="news-section">
-      <h2>News & Updates</h2>
+    <div class="news-section" role="region" aria-labelledby="news-updates-title">
+      <h2 id="news-updates-title">News & Updates</h2>
       <div class="news-list">
         <div class="news-item">
           <h4>Crush Your 2025 Reading Challenge Goals with These Tips</h4>
@@ -89,8 +89,8 @@
         </div>
       </div>
     </div>
-    <div class="recommended-books">
-      <h2>Recommended Books</h2>
+    <div class="recommended-books" role="region" aria-labelledby="recommended-books-title">
+      <h2 id="recommended-books-title">Recommended Books</h2>
       <div class="book-list">
         {% for book in recommended_books %}
         <div class="book-item">
